@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import util.ConnectDB;
+import java.sql.PreparedStatement;
+
 
 public class DaoHumanType implements Workable<DtoHumanType> {
 
@@ -63,15 +65,75 @@ public class DaoHumanType implements Workable<DtoHumanType> {
     }
 
     @Override
-    public int update(int id, DtoHumanType newItem) {
-        // TODO: viết code update
-        return 0;
+    public int update(DtoHumanType x) {
+        int kq = 0;
+        Connection conn = null;
+        try {
+            // ===== 2.1: Tạo kết nối
+            conn = new ConnectDB().getConnection();
+
+            // ===== 2.2: Tạo câu lệnh SQL
+            String sqlString = "UPDATE HumanType SET typeName = ? WHERE typeId = ?";
+
+            PreparedStatement ps = conn.prepareStatement(sqlString);
+
+            // ===== 2.3: Gán giá trị cho tham số
+            ps.setString(1, x.getTypeName());
+            ps.setInt(2, x.getTypeId());
+
+            // ===== 2.4: Thực thi lệnh
+            kq = ps.executeUpdate();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoHumanType.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                // ===== 2.5: Đóng kết nối
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DaoHumanType.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return kq;
     }
 
     @Override
-    public void searchById(int id) {
+    public DtoHumanType searchById(int id) {
         // TODO: viết code search
-        
+        DtoHumanType x = null;
+
+        // --- B1: Tạo kết nối tới Database
+        Connection con = new ConnectDB().getConnection();
+
+        // --- B2: Tạo đối tượng mang lệnh [Statement]
+        Statement ml;
+        try {
+            ml = con.createStatement();
+            String sqlString = "SELECT typeId, typeName "
+                    + "FROM humanType "
+                    + "WHERE typeId = " + id;
+
+            // --- B3: Nhận kết quả thi hành [ResultSet] dựa vào việc thực thi phương thức [.executeQuery()]
+            ResultSet rs = ml.executeQuery(sqlString);
+
+            // --- B4: Lặp và xử lý dữ liệu
+            while (rs.next()) {
+                // --- Lấy dữ liệu từ ResultSet
+                int typeId = rs.getInt("typeId");
+                String typeName = rs.getString("typeName");
+
+                // --- Tạo đối tượng DTO dựa vào dữ liệu đã lấy ở trên
+                x = new DtoHumanType(typeId, typeName);
+            }
+
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DaoHumanType.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return x;
+
     }
 }
-
