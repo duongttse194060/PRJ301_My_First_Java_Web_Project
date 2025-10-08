@@ -1,39 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
-         http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee           http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
         <servlet-name>TestKetNoi</servlet-name>
         <servlet-class>TestKetNoi</servlet-class>
     </servlet>
-
     <servlet>
         <servlet-name>NewTypeControl</servlet-name>
         <servlet-class>NewTypeControl</servlet-class>
     </servlet>
-
     <servlet>
         <servlet-name>NewTypeController</servlet-name>
         <servlet-class>Controller.NewTypeController</servlet-class>
     </servlet>
-
+    <servlet>
+        <servlet-name>HumanTypeListController</servlet-name>
+        <servlet-class>Controller.HumanTypeListController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HumanTypeDeleteController</servlet-name>
+        <servlet-class>Controller.HumanTypeDeleteController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestKetNoi</servlet-name>
         <url-pattern>/Test</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>NewTypeControl</servlet-name>
         <url-pattern>/new_type</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>NewTypeController</servlet-name>
         <url-pattern>/type_control</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>HumanTypeListController</servlet-name>
+        <url-pattern>/list_type</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HumanTypeDeleteController</servlet-name>
+        <url-pattern>/delete_type</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
